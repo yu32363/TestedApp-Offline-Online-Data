@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import '../database_helper.dart';
 
 class SendNameProvider with ChangeNotifier {
+  String url = '192.168.1.72';
   List<NameModel> _items = [];
   final dbHelper = DatabaseHelper.instance;
   List<NameModel> get items {
@@ -22,7 +23,7 @@ class SendNameProvider with ChangeNotifier {
     try {
       if (_connectionStatus == true) {
         Response response = await Dio().post(
-          'http://192.168.5.228/SqliteSync/saveName.php',
+          'http://$url/SqliteSync/saveName.php',
           options: Options(headers: {
             HttpHeaders.contentTypeHeader: "application/json",
           }),
@@ -62,7 +63,7 @@ class SendNameProvider with ChangeNotifier {
     try {
       if (_connectionStatus == true) {
         Response response = await Dio().post(
-          'http://192.168.5.228/SqliteSync/saveName.php',
+          'http://$url/SqliteSync/saveName.php',
           options: Options(headers: {
             HttpHeaders.contentTypeHeader: "application/json",
           }),

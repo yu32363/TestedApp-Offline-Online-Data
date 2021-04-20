@@ -1,14 +1,11 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:dbsync_app/database_helper.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_offline/flutter_offline.dart';
 import 'package:provider/provider.dart';
-import 'NetworkStateChecker.dart';
 import 'Providers/SendNameProvider.dart';
 
 void main() => runApp(MyApp());
@@ -67,16 +64,6 @@ class _MyHomeState extends State<MyHome> {
   void dispose() {
     _connectivitySubscription.cancel();
     super.dispose();
-  }
-
-  void _insert() async {
-    // row to insert
-    // Map<String, dynamic> row = {
-    //   DatabaseHelper.columnName : 'Bob',
-    //   DatabaseHelper.columnAge  : 23
-    // };
-    // final id = await dbHelper.insert(row);
-    // print('inserted row id: $id');
   }
 
   void _query() async {
