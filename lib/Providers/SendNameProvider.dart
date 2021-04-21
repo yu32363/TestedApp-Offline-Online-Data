@@ -18,7 +18,7 @@ class SendNameProvider with ChangeNotifier {
 
   Future<void> addName(text, _connectionStatus) async {
     print(text.toString());
-    int a = 1;
+    int status = 1;
     print(_connectionStatus.toString());
     try {
       if (_connectionStatus == true) {
@@ -28,7 +28,7 @@ class SendNameProvider with ChangeNotifier {
             HttpHeaders.contentTypeHeader: "application/json",
           }),
           data: jsonEncode(
-              <String, dynamic>{"name": text.toString(), "status": a}),
+              <String, dynamic>{"name": text.toString(), "status": status}),
         );
         if (response.statusCode == 200) {
           String body = response.statusMessage;
@@ -49,7 +49,6 @@ class SendNameProvider with ChangeNotifier {
         final id = await dbHelper.insert(row);
         print('inserted row id: $id');
       }
-
       notifyListeners();
     } catch (error) {
       throw (error);

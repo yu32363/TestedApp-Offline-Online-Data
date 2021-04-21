@@ -5,7 +5,6 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 
 class DatabaseHelper {
-
   static final _databaseName = "TestDatabase.db";
   static final _databaseVersion = 1;
 
@@ -34,8 +33,7 @@ class DatabaseHelper {
     String path = join(documentsDirectory.path, _databaseName);
     print(path);
     return await openDatabase(path,
-        version: _databaseVersion,
-        onCreate: _onCreate);
+        version: _databaseVersion, onCreate: _onCreate);
   }
 
   // SQL code to create the database table
@@ -66,11 +64,11 @@ class DatabaseHelper {
     return await db.query(table);
   }
 
-
   //Get all records which are unsynched
-  Future<List<Map<String, dynamic>>> queryUnsynchedRecords() async {
+  Future<List<Map<String, dynamic>>> queryUnSyncRecords() async {
     Database db = await instance.database;
-    return await db.rawQuery('SELECT id,name,status FROM $table WHERE status = 0');
+    return await db
+        .rawQuery('SELECT id,name,status FROM $table WHERE status = 0');
   }
 
   Future<List<Map<String, dynamic>>> queryAllRecords() async {
@@ -78,12 +76,12 @@ class DatabaseHelper {
     return await db.rawQuery('SELECT id,name,status FROM $table');
   }
 
-
   // All of the methods (insert, query, update, delete) can also be done using
   // raw SQL commands. This method uses a raw query to give the row count.
   Future<int> queryRowCount() async {
     Database db = await instance.database;
-    return Sqflite.firstIntValue(await db.rawQuery('SELECT COUNT(*) FROM $table'));
+    return Sqflite.firstIntValue(
+        await db.rawQuery('SELECT COUNT(*) FROM $table'));
   }
 
   // We are assuming here that the id column in the map is set. The other

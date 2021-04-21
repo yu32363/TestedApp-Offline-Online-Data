@@ -48,7 +48,7 @@ class _MyHomeState extends State<MyHome> {
   // reference to our single class that manages the database
   final dbHelper = DatabaseHelper.instance;
   final _text = TextEditingController();
-  List Data = List();
+  List data = [];
   // homepage layout
   bool _connectionStatus;
   final Connectivity _connectivity = Connectivity();
@@ -72,16 +72,16 @@ class _MyHomeState extends State<MyHome> {
     allRows.forEach((row) => print(row));
   }
 
-  Future<dynamic> _getunsynchedrecords() async {
-    final allRows = await dbHelper.queryUnsynchedRecords();
-    print('query all unsynched:');
+  Future<dynamic> _getUnSyncRecords() async {
+    final allRows = await dbHelper.queryUnSyncRecords();
+    print('query all un sync:');
     allRows.forEach((row) => print(row));
     return allRows;
   }
 
   Future<dynamic> queryAllRecords() async {
     final allData = await dbHelper.queryAllRecords();
-    print('query all unsynched:');
+    print('query all un sync:');
     return allData;
   }
 
@@ -107,10 +107,10 @@ class _MyHomeState extends State<MyHome> {
     });
   }
 
-  _syncitnow(_connectionStatus) async {
+  _syncItNow(_connectionStatus) async {
     final nameProvider = Provider.of<SendNameProvider>(context, listen: false);
     if (_connectionStatus == true) {
-      var allRows = await _getunsynchedrecords();
+      var allRows = await _getUnSyncRecords();
       allRows.forEach((row) async {
         await nameProvider.sync(row['name'], _connectionStatus);
         await _update(row['id'], row['name']);
@@ -119,10 +119,10 @@ class _MyHomeState extends State<MyHome> {
   }
 
   void _getAllData() async {
-    Data.clear();
+    data.clear();
     var allRows = await queryAllRecords();
     allRows.forEach((row) async {
-      Data.add(row);
+      data.add(row);
     });
     setState(() {});
   }
@@ -155,7 +155,7 @@ class _MyHomeState extends State<MyHome> {
                 ) {
                   _connectionStatus = connectivity != ConnectivityResult.none;
                   if (_connectionStatus) {
-                    _syncitnow(_connectionStatus);
+                    _syncItNow(_connectionStatus);
                   }
 
                   return Stack(children: [child]);
@@ -185,11 +185,11 @@ class _MyHomeState extends State<MyHome> {
                           ),
                           TextButton(
                             child: Text(
-                              'Check Unsync',
+                              'Check Un Sync',
                               style: TextStyle(fontSize: 20, color: Colors.red),
                             ),
                             onPressed: () {
-                              _getunsynchedrecords();
+                              _getUnSyncRecords();
                             },
                           ),
                         ],
@@ -244,11 +244,11 @@ class _MyHomeState extends State<MyHome> {
                       Container(
                           height: 400.0,
                           child: ListView.builder(
-                            itemCount: Data.length,
+                            itemCount: data.length,
                             itemBuilder: (context, i) {
                               return ListTile(
-                                title: Text(Data[i]['name']),
-                                trailing: Data[i]['status'] != 0
+                                title: Text(data[i]['name']),
+                                trailing: data[i]['status'] != 0
                                     ? Icon(Icons.check)
                                     : Icon(Icons.clear),
                               );
